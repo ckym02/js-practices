@@ -4,7 +4,8 @@ import dayjs from "dayjs";
 function main() {
   const argv = minimist(process.argv.slice(2));
 
-  const targetMonth = argv.m === undefined ? dayjs().month() : argv.m;
+  // dayjs().month()は0~11までの数値を取得する
+  const targetMonth = argv.m === undefined ? dayjs().month() + 1 : argv.m;
   const targetYear = argv.y === undefined ? dayjs().year() : argv.y;
 
   // new Date()の月は、0(1月)~11(12月)の値で指定する
@@ -22,7 +23,9 @@ function main() {
 
   const firstMonthDay = targetDate.startOf("month").day();
   const space = "   ".repeat(firstMonthDay);
-  process.stdout.write(`        ${targetYear}\n${space}${printDate}`);
+  process.stdout.write(
+    `      ${targetMonth}月 ${targetYear}\n${space}${printDate}`
+  );
 }
 
 main();
