@@ -1,32 +1,36 @@
 import minimist from "minimist";
 import dayjs from "dayjs";
 
-function main() {
+function printDate(targetDate) {
+  const lastMonthDate = targetDate.endOf("month").date();
+  for (let date = 1; date <= lastMonthDate; date++) {
+    const day = targetDate.date(date).day();
+    // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
+
+    if (day === 6) {
+      process.stdout.write(`${(" " + date).slice(-2)}\n`);
+    } else {
+      process.stdout.write(`${(" " + date).slice(-2)} `);
+    }
+  }
+}
+
+function printCalendar() {
   const argv = minimist(process.argv.slice(2));
 
-  const today = dayjs()
+  const today = dayjs();
   // dayjs().month()は0~11までの数値を取得する
   const targetMonth = argv.m ?? today.month() + 1;
   const targetYear = argv.y ?? today.year();
 
   // new Date()の月は、0(1月)~11(12月)の値で指定する
   const targetDate = dayjs(new Date(targetYear, targetMonth - 1));
-  const lastMonthDate = targetDate.endOf("month").date();
-
-  let printDate = "";
-  for (let date = 1; date <= lastMonthDate; date++) {
-    const day = targetDate.date(date).day();
-    // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
-    const appendDate =
-      day === 6 ? `${(" " + date).slice(-2)}\n` : `${(" " + date).slice(-2)} `;
-    printDate = printDate + appendDate;
-  }
 
   const firstMonthDay = targetDate.startOf("month").day();
   const space = "   ".repeat(firstMonthDay);
-  process.stdout.write(
-    `      ${targetMonth}月 ${targetYear}\n${space}${printDate}`
-  );
+
+  process.stdout.write(`      ${targetMonth}月 ${targetYear}\n${space}`);
+  printDate(targetDate);
 }
 
-main();
+printCalendar();
