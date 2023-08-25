@@ -4,9 +4,10 @@ import dayjs from "dayjs";
 function main() {
   const argv = minimist(process.argv.slice(2));
 
+  const today = dayjs()
   // dayjs().month()は0~11までの数値を取得する
-  const targetMonth = argv.m ?? dayjs().month() + 1;
-  const targetYear = argv.y ?? dayjs().year();
+  const targetMonth = argv.m ?? today.month() + 1;
+  const targetYear = argv.y ?? today.year();
 
   // new Date()の月は、0(1月)~11(12月)の値で指定する
   const targetDate = dayjs(new Date(targetYear, targetMonth - 1));
