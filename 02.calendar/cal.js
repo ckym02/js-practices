@@ -3,14 +3,16 @@ import dayjs from "dayjs";
 
 function printDate(targetDateTimeInfo) {
   const lastDateOfMonth = targetDateTimeInfo.endOf("month").date();
+
   for (let date = 1; date <= lastDateOfMonth; date++) {
     const day = targetDateTimeInfo.date(date).day();
-    // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
+    const formattedDate = (" " + date).slice(-2);
 
+    // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
     if (day === 6) {
-      process.stdout.write(`${(" " + date).slice(-2)}\n`);
+      process.stdout.write(`${formattedDate}\n`);
     } else {
-      process.stdout.write(`${(" " + date).slice(-2)} `);
+      process.stdout.write(`${formattedDate} `);
     }
   }
   process.stdout.write(`\n`);
