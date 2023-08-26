@@ -13,6 +13,7 @@ function printDate(targetDateTimeInfo) {
       process.stdout.write(`${(" " + date).slice(-2)} `);
     }
   }
+  process.stdout.write(`\n`);
 }
 
 function printCalendar() {
