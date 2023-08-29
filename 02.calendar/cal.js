@@ -1,17 +1,21 @@
 import minimist from "minimist";
 import dayjs from "dayjs";
 
-function printDate(selectedMonth) {
-  const lastDateOfMonth = selectedMonth.endOf("month");
-  const firstDateOfMonth = selectedMonth.startOf("month");
+function printDate(selectedMonthObject) {
+  const endOfMonthObject = selectedMonthObject.endOf("month");
+  const startOfMonthObject = selectedMonthObject.startOf("month");
 
-  for (let d = firstDateOfMonth; d.isBefore(lastDateOfMonth); d = d.add(1, 'day')) {
-    const formattedDate = (`  ${d.date()}`).slice(-2);
+  for (
+    let o = startOfMonthObject;
+    o.isBefore(endOfMonthObject);
+    o = o.add(1, "day")
+  ) {
+    const formattedDate = `  ${o.date()}`.slice(-2);
 
-    process.stdout.write(formattedDate)
+    process.stdout.write(formattedDate);
 
     // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
-    if (d.day() === 6) {
+    if (o.day() === 6) {
       process.stdout.write("\n");
     } else {
       process.stdout.write(" ");
@@ -29,13 +33,13 @@ function printCalendar() {
   const targetYear = argv.y ?? today.year();
 
   // new Date()の月は、0(1月)~11(12月)の値で指定する
-  const selectedMonth = dayjs(new Date(targetYear, targetMonth - 1));
+  const selectedMonthObject = dayjs(new Date(targetYear, targetMonth - 1));
 
-  const firstWeekDayOfMonth = selectedMonth.startOf("month").day();
+  const startWeekDayOfMonth = selectedMonthObject.startOf("month").day();
 
   process.stdout.write(`      ${targetMonth}月 ${targetYear}\n`);
-  process.stdout.write("   ".repeat(firstWeekDayOfMonth));
-  printDate(selectedMonth);
+  process.stdout.write("   ".repeat(startWeekDayOfMonth));
+  printDate(selectedMonthObject);
 }
 
 printCalendar();
