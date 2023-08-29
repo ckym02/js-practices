@@ -32,9 +32,9 @@ function printCalendar() {
   const selectedMonth = dayjs(new Date(targetYear, targetMonth - 1));
 
   const firstDayOfMonth = selectedMonth.startOf("month").day();
-  const space = "   ".repeat(firstDayOfMonth);
 
-  process.stdout.write(`      ${targetMonth}月 ${targetYear}\n${space}`);
+  process.stdout.write(`      ${targetMonth}月 ${targetYear}\n`);
+  process.stdout.write("   ".repeat(firstDayOfMonth));
   printDate(selectedMonth);
 }
 
