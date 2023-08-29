@@ -31,10 +31,10 @@ function printCalendar() {
   // new Date()の月は、0(1月)~11(12月)の値で指定する
   const selectedMonth = dayjs(new Date(targetYear, targetMonth - 1));
 
-  const firstDayOfMonth = selectedMonth.startOf("month").day();
+  const firstWeekDayOfMonth = selectedMonth.startOf("month").day();
 
   process.stdout.write(`      ${targetMonth}月 ${targetYear}\n`);
-  process.stdout.write("   ".repeat(firstDayOfMonth));
+  process.stdout.write("   ".repeat(firstWeekDayOfMonth));
   printDate(selectedMonth);
 }
 
