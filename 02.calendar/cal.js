@@ -6,7 +6,7 @@ function printDate(targetDateTimeInfo) {
 
   for (let date = 1; date <= lastDateOfMonth; date++) {
     const day = targetDateTimeInfo.date(date).day();
-    const formattedDate = (" " + date).slice(-2);
+    const formattedDate = (`  ${date}`).slice(-2);
 
     // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
     if (day === 6) {
@@ -15,7 +15,7 @@ function printDate(targetDateTimeInfo) {
       process.stdout.write(`${formattedDate} `);
     }
   }
-  process.stdout.write(`\n`);
+  process.stdout.write("\n");
 }
 
 function printCalendar() {
