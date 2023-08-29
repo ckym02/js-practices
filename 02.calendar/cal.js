@@ -2,16 +2,16 @@ import minimist from "minimist";
 import dayjs from "dayjs";
 
 function printDate(selectedMonth) {
-  const lastDateOfMonth = selectedMonth.endOf("month").date();
+  const lastDateOfMonth = selectedMonth.endOf("month");
+  const firstDateOfMonth = selectedMonth.startOf("month");
 
-  for (let date = 1; date <= lastDateOfMonth; date++) {
-    const day = selectedMonth.date(date).day();
-    const formattedDate = (`  ${date}`).slice(-2);
+  for (let d = firstDateOfMonth; d.isBefore(lastDateOfMonth); d = d.add(1, 'day')) {
+    const formattedDate = (`  ${d.date()}`).slice(-2);
 
     process.stdout.write(formattedDate)
 
     // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
-    if (day === 6) {
+    if (d.day() === 6) {
       process.stdout.write("\n");
     } else {
       process.stdout.write(" ");
