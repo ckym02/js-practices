@@ -6,16 +6,14 @@ function printDate(selectedMonthObject) {
   const startOfMonthObject = selectedMonthObject.startOf("month");
 
   for (
-    let o = startOfMonthObject;
-    o.isBefore(endOfMonthObject);
-    o = o.add(1, "day")
+    let object = startOfMonthObject;
+    object.isBefore(endOfMonthObject);
+    object = object.add(1, "day")
   ) {
-    const formattedDate = `  ${o.date()}`.slice(-2);
-
+    const formattedDate = `  ${object.date()}`.slice(-2);
     process.stdout.write(formattedDate);
-
     // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
-    if (o.day() === 6) {
+    if (object.day() === 6) {
       process.stdout.write("\n");
     } else {
       process.stdout.write(" ");
