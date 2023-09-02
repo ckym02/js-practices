@@ -1,24 +1,6 @@
 import minimist from "minimist";
 import dayjs from "dayjs";
 
-function printDate(startOfMonthObject, endOfMonthObject) {
-  for (
-    let object = startOfMonthObject;
-    object.isBefore(endOfMonthObject);
-    object = object.add(1, "day")
-  ) {
-    const formattedDate = `  ${object.date()}`.slice(-2);
-    process.stdout.write(formattedDate);
-    // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
-    if (object.day() === 6) {
-      process.stdout.write("\n");
-    } else {
-      process.stdout.write(" ");
-    }
-  }
-  process.stdout.write("\n");
-}
-
 function printCalendar() {
   const argv = minimist(process.argv.slice(2));
 
@@ -37,7 +19,23 @@ function printCalendar() {
 
   process.stdout.write(`      ${targetMonth}月 ${targetYear}\n`);
   process.stdout.write("   ".repeat(startOfMonthObject.day()));
-  printDate(startOfMonthObject, endOfMonthObject);
+
+  // 日付を表示する処理
+  for (
+    let object = startOfMonthObject;
+    object.isBefore(endOfMonthObject);
+    object = object.add(1, "day")
+  ) {
+    const formattedDate = `  ${object.date()}`.slice(-2);
+    process.stdout.write(formattedDate);
+    // 曜日が土曜日(6)であれば改行する、それ以外は半角スペースを末尾に追加する
+    if (object.day() === 6) {
+      process.stdout.write("\n");
+    } else {
+      process.stdout.write(" ");
+    }
+  }
+  process.stdout.write("\n");
 }
 
 printCalendar();
