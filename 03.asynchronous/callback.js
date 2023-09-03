@@ -3,7 +3,7 @@ import timers from "timers/promises";
 const db = new sqlite3.Database(":memory:");
 
 db.run("CREATE TABLE books (title text not null unique)", function () {
-  db.run("INSERT INTO books VALUES ('ほんのなまえ')", function () {
+  db.run("INSERT INTO books VALUES ('callback/ほんのなまえ')", function () {
     console.log(`ID: ${this.lastID}`);
 
     db.get("SELECT rowid AS id, title FROM books", function (err, row) {
