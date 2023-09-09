@@ -1,39 +1,36 @@
 import timers from "timers/promises";
-import { createBooksTable } from "./sqlite.js";
-import { insertValuesIntoBooks } from "./sqlite.js";
-import { selectFromBooks } from "./sqlite.js";
-import { dropBooksTable } from "./sqlite.js";
+import { insertTable } from "./sqlite.js";
+import { get } from "./sqlite.js";
+import { run } from "./sqlite.js";
 
 // エラーなし
 (async () => {
-  await createBooksTable("CREATE TABLE books (title text not null unique)");
+  await run("CREATE TABLE books (title text not null unique)");
 
-  await insertValuesIntoBooks(
-    "INSERT INTO books VALUES ('async_await/ほんのなまえ')"
-  );
+  await insertTable("INSERT INTO books VALUES ('async_await/ほんのなまえ')");
 
-  await selectFromBooks("SELECT rowid AS id, title FROM books");
+  await get("SELECT rowid AS id, title FROM books");
 
-  dropBooksTable();
+  run("DROP TABLE books");
 })();
 
 await timers.setTimeout(100);
 
 // エラーあり
 (async () => {
-  await createBooksTable("CREATE TABLE books (title text not null unique)");
+  await run("CREATE TABLE books (title text not null unique)");
 
   try {
-    await insertValuesIntoBooks("INSERT INTO books VALUES (NULL)");
+    await insertTable("INSERT INTO books VALUES (NULL)");
   } catch (error) {
     console.error(error);
   }
 
   try {
-    await selectFromBooks("SELECT rowid AS id, hoge FROM books");
+    await get("SELECT rowid AS id, hoge FROM books");
   } catch (error) {
     console.error(error);
   }
 
-  dropBooksTable();
+  run("DROP TABLE books");
 })();

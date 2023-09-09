@@ -1,7 +1,7 @@
 import sqlite3 from "sqlite3";
 const db = new sqlite3.Database(":memory:");
 
-export function createBooksTable(sql) {
+export function run(sql) {
   return new Promise((resolve) => {
     db.run(sql, function () {
       resolve();
@@ -9,32 +9,28 @@ export function createBooksTable(sql) {
   });
 }
 
-export function insertValuesIntoBooks(sql) {
+export function insertTable(sql) {
   return new Promise((resolve, reject) => {
     db.run(sql, function (err) {
       if (!err) {
         console.log(`ID: ${this.lastID}`);
         resolve();
       } else {
-        reject(`レコード追加に失敗しました。${err.message}`);
+        reject(err.message);
       }
     });
   });
 }
 
-export function selectFromBooks(sql) {
+export function get(sql) {
   return new Promise((resolve, reject) => {
     db.get(sql, function (err, row) {
       if (!err) {
         console.log(`ID: ${row.id}, title: ${row.title}`);
         resolve();
       } else {
-        reject(`レコードの取得に失敗しました。${err.message}`);
+        reject(err.message);
       }
     });
   });
-}
-
-export function dropBooksTable() {
-  db.run("DROP TABLE books");
 }
