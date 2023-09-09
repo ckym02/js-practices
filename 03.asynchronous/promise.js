@@ -4,6 +4,7 @@ import { insertValuesIntoBooks } from "./sqlite.js";
 import { selectFromBooks } from "./sqlite.js";
 import { dropBooksTable } from "./sqlite.js";
 
+// エラーなし
 createBooksTable("CREATE TABLE books (title text not null unique)").then(() => {
   insertValuesIntoBooks(
     "INSERT INTO books VALUES ('async_await/ほんのなまえ')"
@@ -16,6 +17,7 @@ createBooksTable("CREATE TABLE books (title text not null unique)").then(() => {
 
 await timers.setTimeout(100);
 
+// エラーあり
 createBooksTable("CREATE TABLE books (title text not null unique)")
   .then(() => {})
   .catch((error) => {

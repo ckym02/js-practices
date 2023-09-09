@@ -2,6 +2,7 @@ import sqlite3 from "sqlite3";
 import timers from "timers/promises";
 const db = new sqlite3.Database(":memory:");
 
+// エラーなし
 db.run("CREATE TABLE books (title text not null unique)", function () {
   db.run("INSERT INTO books VALUES ('callback/ほんのなまえ')", function () {
     console.log(`ID: ${this.lastID}`);
@@ -16,6 +17,7 @@ db.run("CREATE TABLE books (title text not null unique)", function () {
 
 await timers.setTimeout(100);
 
+// エラーあり
 db.run("CREATE TABLE books (title text not null unique)", function () {
   db.run("INSERT INTO books VALUES (NULL)", function (err) {
     console.error(`レコード追加に失敗しました。${err.message}`);

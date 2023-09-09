@@ -4,6 +4,7 @@ import { insertValuesIntoBooks } from "./sqlite.js";
 import { selectFromBooks } from "./sqlite.js";
 import { dropBooksTable } from "./sqlite.js";
 
+// エラーなし
 (async () => {
   await createBooksTable("CREATE TABLE books (title text not null unique)");
 
@@ -18,6 +19,7 @@ import { dropBooksTable } from "./sqlite.js";
 
 await timers.setTimeout(100);
 
+// エラーあり
 (async () => {
   await createBooksTable("CREATE TABLE books (title text not null unique)");
 
