@@ -17,13 +17,13 @@ await timers.setTimeout(100);
 run("CREATE TABLE books (title text not null unique)")
   .then(() => {})
   .catch((error) => {
-    console.error(error);
+    console.error(error.message);
   })
   .finally(() => {
     run("INSERT INTO books VALUES (NULL)")
       .then(() => {})
       .catch((error) => {
-        console.error(error);
+        console.error(error.message);
       })
       .finally(() => {
         get("SELECT rowid AS id, hoge FROM books")
@@ -33,7 +33,7 @@ run("CREATE TABLE books (title text not null unique)")
             });
           })
           .catch((error) => {
-            console.error(error);
+            console.error(error.message);
           });
       });
   });

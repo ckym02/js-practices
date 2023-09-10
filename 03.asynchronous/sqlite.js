@@ -7,7 +7,7 @@ export function run(sql) {
       if (!err) {
         resolve(this.lastID);
       } else {
-        reject(err.message);
+        reject(err);
       }
     });
   });
@@ -17,10 +17,9 @@ export function get(sql) {
   return new Promise((resolve, reject) => {
     db.get(sql, function (err, row) {
       if (!err) {
-        console.log(`ID: ${row.id}, title: ${row.title}`);
-        resolve();
+        resolve(row);
       } else {
-        reject(err.message);
+        reject(err);
       }
     });
   });
