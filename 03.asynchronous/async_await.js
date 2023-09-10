@@ -1,17 +1,19 @@
 import timers from "timers/promises";
-import { insertTable } from "./sqlite.js";
-import { get } from "./sqlite.js";
 import { run } from "./sqlite.js";
+import { get } from "./sqlite.js";
 
 // エラーなし
 (async () => {
   await run("CREATE TABLE books (title text not null unique)");
 
-  await insertTable("INSERT INTO books VALUES ('async_await/ほんのなまえ')");
+  const lastId = await run(
+    "INSERT INTO books VALUES ('async_await/ほんのなまえ')"
+  );
+  console.log(`ID: ${lastId}`);
 
   await get("SELECT rowid AS id, title FROM books");
 
-  run("DROP TABLE books");
+  await run("DROP TABLE books");
 })();
 
 await timers.setTimeout(100);
@@ -21,7 +23,7 @@ await timers.setTimeout(100);
   await run("CREATE TABLE books (title text not null unique)");
 
   try {
-    await insertTable("INSERT INTO books VALUES (NULL)");
+    await run("INSERT INTO books VALUES (NULL)");
   } catch (error) {
     console.error(error);
   }
@@ -32,5 +34,5 @@ await timers.setTimeout(100);
     console.error(error);
   }
 
-  run("DROP TABLE books");
+  await run("DROP TABLE books");
 })();
