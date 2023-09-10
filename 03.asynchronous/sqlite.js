@@ -12,7 +12,7 @@ export function run(db, sql) {
 
 export function get(db, sql) {
   return new Promise((resolve, reject) => {
-    db.get(sql, function (err, row) {
+    db.get(sql, (err, row) => {
       if (!err) {
         resolve(row);
       } else {
