@@ -1,7 +1,4 @@
-import sqlite3 from "sqlite3";
-const db = new sqlite3.Database(":memory:");
-
-export function run(sql) {
+export function run(db, sql) {
   return new Promise((resolve, reject) => {
     db.run(sql, function (err) {
       if (!err) {
@@ -13,7 +10,7 @@ export function run(sql) {
   });
 }
 
-export function get(sql) {
+export function get(db, sql) {
   return new Promise((resolve, reject) => {
     db.get(sql, function (err, row) {
       if (!err) {

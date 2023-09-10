@@ -1,12 +1,14 @@
+import sqlite3 from "sqlite3";
 import timers from "timers/promises";
-import { run } from "./sqlite.js";
-import { get } from "./sqlite.js";
+import { run, get } from "./sqlite.js";
+
+const db = new sqlite3.Database(":memory:");
 
 // エラーなし
-run("CREATE TABLE books (title text not null unique)").then(() => {
-  run("INSERT INTO books VALUES ('async_await/ほんのなまえ')").then(() => {
-    get("SELECT rowid AS id, title FROM books").then(() => {
-      run("DROP TABLE books");
+run(db, "CREATE TABLE books (title text not null unique)").then(() => {
+  run(db, "INSERT INTO books VALUES ('async_await/ほんのなまえ')").then(() => {
+    get(db, "SELECT rowid AS id, title FROM books").then(() => {
+      run(db, "DROP TABLE books");
     });
   });
 });
@@ -14,22 +16,22 @@ run("CREATE TABLE books (title text not null unique)").then(() => {
 await timers.setTimeout(100);
 
 // エラーあり
-run("CREATE TABLE books (title text not null unique)")
+run(db, "CREATE TABLE books (title text not null unique)")
   .then(() => {})
   .catch((error) => {
     console.error(error.message);
   })
   .finally(() => {
-    run("INSERT INTO books VALUES (NULL)")
+    run(db, "INSERT INTO books VALUES (NULL)")
       .then(() => {})
       .catch((error) => {
         console.error(error.message);
       })
       .finally(() => {
-        get("SELECT rowid AS id, hoge FROM books")
+        get(db, "SELECT rowid AS id, hoge FROM books")
           .then(() => {
-            get("SELECT rowid AS id, title FROM books").then(() => {
-              run("DROP TABLE books");
+            get(db, "SELECT rowid AS id, title FROM books").then(() => {
+              run(db, "DROP TABLE books");
             });
           })
           .catch((error) => {
