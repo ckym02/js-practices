@@ -5,10 +5,10 @@ import { run, get } from "./sqlite.js";
 const db = new sqlite3.Database(":memory:");
 
 // エラーなし
-run(db, "CREATE TABLE books (title text not null unique)").then(() => {
-  run(db, "INSERT INTO books VALUES ('async_await/ほんのなまえ')").then(() => {
-    get(db, "SELECT rowid AS id, title FROM books").then(() => {
-      run(db, "DROP TABLE books");
+run(db, "create table books (title text not null unique)").then(() => {
+  run(db, "insert into books values ('async_await/ほんのなまえ')").then(() => {
+    get(db, "select rowid as id, title from books").then(() => {
+      run(db, "drop table books");
     });
   });
 });
@@ -16,22 +16,22 @@ run(db, "CREATE TABLE books (title text not null unique)").then(() => {
 await timers.setTimeout(100);
 
 // エラーあり
-run(db, "CREATE TABLE books (title text not null unique)")
+run(db, "create table books (title text not null unique)")
   .then(() => {})
   .catch((error) => {
     console.error(error.message);
   })
   .finally(() => {
-    run(db, "INSERT INTO books VALUES (NULL)")
+    run(db, "insert into books values (null)")
       .then(() => {})
       .catch((error) => {
         console.error(error.message);
       })
       .finally(() => {
-        get(db, "SELECT rowid AS id, hoge FROM books")
+        get(db, "select rowid as id, hoge from books")
           .then(() => {
-            get(db, "SELECT rowid AS id, title FROM books").then(() => {
-              run(db, "DROP TABLE books");
+            get(db, "select rowid as id, title from books").then(() => {
+              run(db, "drop table books");
             });
           })
           .catch((error) => {
