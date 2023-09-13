@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 import timers from "timers/promises";
-import { run, get } from "./sqlite.js";
+import { SqliteError, run, get } from "./sqlite.js";
 
 const db = new sqlite3.Database(":memory:");
 
@@ -22,25 +22,29 @@ await timers.setTimeout(100);
 
 // エラーあり
 run(db, "create table books (title text not null unique)")
-  .then(() => {})
-  .catch((error) => {
-    console.error(error.message);
-  })
   .then(() => {
     return run(db, "insert into books values (null)");
   })
-  .catch((error) => {
-    console.error(error.message);
+  .catch((err) => {
+    if (err instanceof SqliteError) {
+      console.error(`レコード追加に失敗しました。${err.message}`);
+    } else {
+      throw err;
+    }
   })
   .then(() => {
     return get(db, "select rowid as id, hoge from books");
   })
-  .catch((error) => {
-    console.error(error.message);
+  .catch((err) => {
+    if (err instanceof SqliteError) {
+      console.error(`レコードの取得に失敗しました。${err.message}`);
+    } else {
+      throw err;
+    }
   })
   .then(() => {
     return run(db, "drop table books");
   })
-  .catch((error) => {
-    console.error(error.message);
+  .catch((err) => {
+    console.error(err.message);
   });

@@ -1,10 +1,16 @@
+export class SqliteError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+
 export function run(db, sql) {
   return new Promise((resolve, reject) => {
     db.run(sql, function (err) {
       if (!err) {
         resolve(this.lastID);
       } else {
-        reject(err);
+        reject(new SqliteError(err));
       }
     });
   });
@@ -16,7 +22,7 @@ export function get(db, sql) {
       if (!err) {
         resolve(row);
       } else {
-        reject(err);
+        reject(new SqliteError(err));
       }
     });
   });
