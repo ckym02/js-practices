@@ -21,10 +21,10 @@ await timers.setTimeout(100);
 // エラーあり
 db.run("CREATE TABLE books (title text not null unique)", () => {
   db.run("INSERT INTO books VALUES (NULL)", (err) => {
-    console.error(`レコード追加に失敗しました。${err.message}`);
+    console.error(err.message);
 
     db.get("SELECT rowid AS id, hoge FROM books", (err) => {
-      console.error(`レコードの取得に失敗しました。${err.message}`);
+      console.error(err.message);
 
       db.run("DROP TABLE books");
     });

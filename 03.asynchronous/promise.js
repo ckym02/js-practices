@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 import timers from "timers/promises";
-import { SqliteError, run, get } from "./sqlite.js";
+import { run, get } from "./sqlite.js";
 
 const db = new sqlite3.Database(":memory:");
 
@@ -26,8 +26,11 @@ run(db, "create table books (title text not null unique)")
     return run(db, "insert into books values (null)");
   })
   .catch((err) => {
-    if (err instanceof SqliteError) {
-      console.error(`レコード追加に失敗しました。${err.message}`);
+    if (
+      err.message ===
+      "SQLITE_CONSTRAINT: NOT NULL constraint failed: books.title"
+    ) {
+      console.error(err.message);
     } else {
       throw err;
     }
@@ -36,8 +39,8 @@ run(db, "create table books (title text not null unique)")
     return get(db, "select rowid as id, hoge from books");
   })
   .catch((err) => {
-    if (err instanceof SqliteError) {
-      console.error(`レコードの取得に失敗しました。${err.message}`);
+    if (err.message === "SQLITE_ERROR: no such column: hoge") {
+      console.error(err.message);
     } else {
       throw err;
     }
