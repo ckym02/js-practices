@@ -26,10 +26,7 @@ run(db, "create table books (title text not null unique)")
     return run(db, "insert into books values (null)");
   })
   .catch((err) => {
-    if (
-      err.message ===
-      "SQLITE_CONSTRAINT: NOT NULL constraint failed: books.title"
-    ) {
+    if (err instanceof Error) {
       console.error(err.message);
     } else {
       throw err;
@@ -39,7 +36,7 @@ run(db, "create table books (title text not null unique)")
     return get(db, "select rowid as id, hoge from books");
   })
   .catch((err) => {
-    if (err.message === "SQLITE_ERROR: no such column: hoge") {
+    if (err instanceof Error) {
       console.error(err.message);
     } else {
       throw err;
