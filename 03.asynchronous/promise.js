@@ -5,25 +5,25 @@ import { run, get } from "./sqlite.js";
 const db = new sqlite3.Database(":memory:");
 
 // エラーなし
-run(db, "create table books (title text not null unique)")
+run(db, "CREATE TABLE books (title TEXT NOT NULL UNIQUE)")
   .then(() => {
-    return run(db, "insert into books values ('async_await/ほんのなまえ')");
+    return run(db, "INSERT INTO books VALUES ('async_await/ほんのなまえ')");
   })
   .then((lastId) => {
     console.log(`ID: ${lastId}`);
-    return get(db, "select rowid as id, title from books");
+    return get(db, "SELECT rowid AS id, title FROM books");
   })
   .then((row) => {
     console.log(`ID: ${row.id}, title: ${row.title}`);
-    run(db, "drop table books");
+    run(db, "DROP TABLE books");
   });
 
 await timers.setTimeout(100);
 
 // エラーあり
-run(db, "create table books (title text not null unique)")
+run(db, "CREATE TABLE books (title TEXT NOT NULL UNIQUE)")
   .then(() => {
-    return run(db, "insert into books values (null)");
+    return run(db, "INSERT INTO books VALUES (NULL)");
   })
   .catch((err) => {
     if (err instanceof Error) {
@@ -33,7 +33,7 @@ run(db, "create table books (title text not null unique)")
     }
   })
   .then(() => {
-    return get(db, "select rowid as id, hoge from books");
+    return get(db, "SELECT rowid AS id, hoge FROM books");
   })
   .catch((err) => {
     if (err instanceof Error) {
@@ -43,7 +43,7 @@ run(db, "create table books (title text not null unique)")
     }
   })
   .then(() => {
-    return run(db, "drop table books");
+    return run(db, "DROP TABLE books");
   })
   .catch((err) => {
     console.error(err.message);
