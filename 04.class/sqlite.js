@@ -1,6 +1,6 @@
 import sqlite3 from "sqlite3";
 
-const db = new sqlite3.Database("/tmp/memos_table.db");
+const db = new sqlite3.Database("tmp/memos_table.db");
 
 export function insert(content) {
   db.serialize(() => {
