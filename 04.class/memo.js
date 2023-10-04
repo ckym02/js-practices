@@ -1,6 +1,6 @@
 import readline from "readline";
 import Enquirer from "enquirer";
-import { insert, selectContent, selectContents } from "./sqlite.js";
+import { insert, selectContents, deleteContent } from "./sqlite.js";
 
 class Memo {
   constructor(content) {
@@ -14,8 +14,9 @@ class Memo {
     const contents = await selectContents();
     return contents;
   }
-  show() {}
-  destroy() {}
+  destroy(id) {
+    deleteContent(id);
+  }
 }
 
 const [, , firstArg] = process.argv;
@@ -40,6 +41,22 @@ if (firstArg === "-r") {
 
   const answer = await Enquirer.prompt(question);
   console.log(answer.memo);
+}
+
+if (firstArg === "-d") {
+  const memo = new Memo();
+  const contents = await memo.index();
+  const choices = Object.values(contents).map((x) => {
+    return { message: x.content.split(/\n/)[0], value: x.id };
+  });
+  const question = {
+    type: "select",
+    name: "memoId",
+    message: "Choose a note you want to delete:",
+    choices: choices,
+  };
+  const answer = await Enquirer.prompt(question);
+  memo.destroy(answer.memoId);
 }
 
 if (!firstArg) {

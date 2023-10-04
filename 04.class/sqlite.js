@@ -12,16 +12,14 @@ export function insert(content) {
 
 export function selectContents() {
   return new Promise((resolve) => {
-    db.all("SELECT content FROM memos", function (err, rows) {
+    db.all("SELECT rowid AS id, content FROM memos", function (err, rows) {
       resolve(rows);
     });
   });
 }
 
-export function selectContent() {
+export function deleteContent(memoId) {
   db.serialize(() => {
-    db.get("SELECT content FROM memos where id = 1", (err, row) => {
-      console.log(row.id + ": " + row.content);
-    });
+    db.run("DELETE FROM memos where rowid = ?", memoId);
   });
 }
