@@ -10,8 +10,8 @@ class Memo {
   create() {
     insert(this.content);
   }
-  async index() {
-    const contents = await selectContents();
+  index() {
+    const contents = selectContents();
     return contents;
   }
   destroy(id) {
@@ -23,7 +23,10 @@ const [, , firstArg] = process.argv;
 
 if (firstArg === "-l") {
   const memo = new Memo();
-  memo.index();
+  const contents = await memo.index();
+  contents.forEach((content) => {
+    console.log(content.content.split(/\n/)[0]);
+  });
 }
 
 if (firstArg === "-r") {
