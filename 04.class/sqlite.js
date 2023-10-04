@@ -20,6 +20,6 @@ export function selectContents() {
 
 export function deleteContent(memoId) {
   db.serialize(() => {
-    db.run("DELETE FROM memos where rowid = ?", memoId);
+    db.run("DELETE FROM memos WHERE rowid = ?", memoId);
   });
 }
