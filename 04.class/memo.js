@@ -16,33 +16,38 @@ if (firstArg === "-r") {
   const memo = new Memo();
   const memos = await memo.select_all();
   const choices = memos.map((memo) => {
-    return { message: memo.content.split(/\n/)[0], value: memo.content };
+    return { name: memo.content.split(/\n/)[0], value: memo.content };
   });
   const question = {
-    type: "select",
-    name: "memo",
     message: "Choose a note you want to see:",
     choices: choices,
+    result(names) {
+      return this.map(names);
+    },
   };
 
-  const answer = await Enquirer.prompt(question);
-  console.log(answer.memo);
+  const prompt = new Enquirer.Select(question);
+  const answer = await prompt.run();
+  console.log(Object.values(answer)[0]);
 }
 
 if (firstArg === "-d") {
   const memo = new Memo();
   const memos = await memo.select_all();
   const choices = memos.map((memo) => {
-    return { message: memo.content.split(/\n/)[0], value: memo.id };
+    return { name: memo.content.split(/\n/)[0], value: memo.id };
   });
   const question = {
-    type: "select",
-    name: "memoId",
     message: "Choose a note you want to delete:",
     choices: choices,
+    result(names) {
+      return this.map(names);
+    },
   };
-  const answer = await Enquirer.prompt(question);
-  memo.delete(answer.memoId);
+
+  const prompt = new Enquirer.Select(question);
+  const answer = await prompt.run();
+  memo.delete(Object.values(answer)[0]);
 }
 
 if (!firstArg) {
