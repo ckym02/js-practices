@@ -10,11 +10,10 @@ class Memo {
   create() {
     insert(this.content);
   }
-  index() {
-    const contents = selectContents();
-    return contents;
+  select_all() {
+    return selectContents();
   }
-  destroy(id) {
+  delete(id) {
     deleteContent(id);
   }
 }
@@ -23,17 +22,17 @@ const [, , firstArg] = process.argv;
 
 if (firstArg === "-l") {
   const memo = new Memo();
-  const contents = await memo.index();
-  contents.forEach((content) => {
-    console.log(content.content.split(/\n/)[0]);
+  const memos = await memo.select_all();
+  memos.forEach((memo) => {
+    console.log(memo.content.split(/\n/)[0]);
   });
 }
 
 if (firstArg === "-r") {
   const memo = new Memo();
-  const contents = await memo.index();
-  const choices = contents.map((x) => {
-    return { message: x.content.split(/\n/)[0], value: x.content };
+  const memos = await memo.select_all();
+  const choices = memos.map((memo) => {
+    return { message: memo.content.split(/\n/)[0], value: memo.content };
   });
   const question = {
     type: "select",
@@ -48,9 +47,9 @@ if (firstArg === "-r") {
 
 if (firstArg === "-d") {
   const memo = new Memo();
-  const contents = await memo.index();
-  const choices = contents.map((x) => {
-    return { message: x.content.split(/\n/)[0], value: x.id };
+  const memos = await memo.select_all();
+  const choices = memos.map((memo) => {
+    return { message: memo.content.split(/\n/)[0], value: memo.id };
   });
   const question = {
     type: "select",
@@ -59,7 +58,7 @@ if (firstArg === "-d") {
     choices: choices,
   };
   const answer = await Enquirer.prompt(question);
-  memo.destroy(answer.memoId);
+  memo.delete(answer.memoId);
 }
 
 if (!firstArg) {
