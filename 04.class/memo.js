@@ -1,22 +1,6 @@
 import readline from "readline";
 import Enquirer from "enquirer";
-import { insert, selectContents, deleteContent } from "./sqlite.js";
-
-class Memo {
-  constructor(content) {
-    this.content = content;
-  }
-
-  create() {
-    insert(this.content);
-  }
-  select_all() {
-    return selectContents();
-  }
-  delete(id) {
-    deleteContent(id);
-  }
-}
+import { Memo } from "./class/memo.js";
 
 const [, , firstArg] = process.argv;
 
