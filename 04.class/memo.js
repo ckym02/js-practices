@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import readline from "readline";
 import Enquirer from "enquirer";
 import { Memo } from "./class/memo.js";
