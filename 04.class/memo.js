@@ -32,7 +32,7 @@ if (firstArg === "-l") {
 if (firstArg === "-r") {
   const memo = new Memo();
   const contents = await memo.index();
-  const choices = Object.values(contents).map((x) => {
+  const choices = contents.map((x) => {
     return { message: x.content.split(/\n/)[0], value: x.content };
   });
   const question = {
@@ -49,7 +49,7 @@ if (firstArg === "-r") {
 if (firstArg === "-d") {
   const memo = new Memo();
   const contents = await memo.index();
-  const choices = Object.values(contents).map((x) => {
+  const choices = contents.map((x) => {
     return { message: x.content.split(/\n/)[0], value: x.id };
   });
   const question = {
