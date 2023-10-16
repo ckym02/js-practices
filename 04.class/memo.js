@@ -2,7 +2,7 @@
 
 import readline from "readline";
 import Enquirer from "enquirer";
-import { Memo } from "./class/memo.js";
+import Memo from "./class/memo.js";
 
 const [, , firstArg] = process.argv;
 

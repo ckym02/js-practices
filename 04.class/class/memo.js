@@ -1,6 +1,6 @@
 import { insert, selectContents, deleteContent } from "./../sqlite.js";
 
-export class Memo {
+export default class Memo {
   constructor(content) {
     this.content = content;
   }
