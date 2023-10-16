@@ -8,7 +8,7 @@ export default class Memo {
   create() {
     insert(this.content);
   }
-  select_all() {
+  selectAll() {
     return selectContents();
   }
   delete(id) {

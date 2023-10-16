@@ -8,7 +8,7 @@ const [, , firstArg] = process.argv;
 
 if (firstArg === "-l") {
   const memo = new Memo();
-  const memos = await memo.select_all();
+  const memos = await memo.selectAll();
   memos.forEach((memo) => {
     console.log(memo.content.split(/\n/)[0]);
   });
@@ -16,7 +16,7 @@ if (firstArg === "-l") {
 
 if (firstArg === "-r") {
   const memo = new Memo();
-  const memos = await memo.select_all();
+  const memos = await memo.selectAll();
   const choices = memos.map((memo) => {
     return { name: memo.content.split(/\n/)[0], value: memo.content };
   });
@@ -35,7 +35,7 @@ if (firstArg === "-r") {
 
 if (firstArg === "-d") {
   const memo = new Memo();
-  const memos = await memo.select_all();
+  const memos = await memo.selectAll();
   const choices = memos.map((memo) => {
     return { name: memo.content.split(/\n/)[0], value: memo.id };
   });
