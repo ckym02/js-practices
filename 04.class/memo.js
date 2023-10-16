@@ -21,7 +21,7 @@ if (firstArg === "-r") {
     return { name: memo.content.split(/\n/)[0], value: memo.content };
   });
   const question = {
-    message: "Choose a note you want to see:",
+    message: "Choose a memo you want to see:",
     choices: choices,
     result(names) {
       return this.map(names);
@@ -40,7 +40,7 @@ if (firstArg === "-d") {
     return { name: memo.content.split(/\n/)[0], value: memo.id };
   });
   const question = {
-    message: "Choose a note you want to delete:",
+    message: "Choose a memo you want to delete:",
     choices: choices,
     result(names) {
       return this.map(names);
