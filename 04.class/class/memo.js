@@ -1,17 +1,20 @@
-import { insert, selectContents, deleteContent } from "./../sqlite.js";
+import Sqlite from "./sqlite.js";
 
 export default class Memo {
   constructor(content) {
     this.content = content;
+    this.sqlite = new Sqlite();
   }
 
   create() {
-    insert(this.content);
+    this.sqlite.insert(this.content);
   }
+
   selectAll() {
-    return selectContents();
+    return this.sqlite.selectContents();
   }
+
   delete(id) {
-    deleteContent(id);
+    this.sqlite.deleteContent(id);
   }
 }
