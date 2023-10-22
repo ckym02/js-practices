@@ -4,9 +4,9 @@ import readline from "readline";
 import Enquirer from "enquirer";
 import Memo from "./class/memo.js";
 
-const [, , firstArg] = process.argv;
+const [, , option] = process.argv;
 
-if (firstArg === "-l") {
+if (option === "-l") {
   const memo = new Memo();
   const memos = await memo.selectAll();
   memos.forEach((memo) => {
@@ -14,7 +14,7 @@ if (firstArg === "-l") {
   });
 }
 
-if (firstArg === "-r") {
+if (option === "-r") {
   const memo = new Memo();
   const memos = await memo.selectAll();
   const choices = memos.map((memo) => {
@@ -33,7 +33,7 @@ if (firstArg === "-r") {
   console.log(Object.values(answer)[0]);
 }
 
-if (firstArg === "-d") {
+if (option === "-d") {
   const memo = new Memo();
   const memos = await memo.selectAll();
   const choices = memos.map((memo) => {
@@ -52,7 +52,7 @@ if (firstArg === "-d") {
   memo.delete(Object.values(answer)[0]);
 }
 
-if (!firstArg) {
+if (!option) {
   const reader = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
