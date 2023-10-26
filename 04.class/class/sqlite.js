@@ -2,7 +2,7 @@ import sqlite3 from "sqlite3";
 
 export default class Sqlite {
   constructor() {
-    this.db = new sqlite3.Database("tmp/memos_table.db");
+    this.db = new sqlite3.Database("memos_table.db");
   }
 
   insert(content) {
