@@ -6,10 +6,13 @@ export default class Sqlite {
   }
 
   insert(content) {
-    this.db.serialize(() => {
-      this.db.run("CREATE TABLE IF NOT EXISTS memos (content TEXT)");
+    return new Promise((resolve) => {
+      this.db.serialize(() => {
+        this.db.run("CREATE TABLE IF NOT EXISTS memos (content TEXT)");
 
-      this.db.run("INSERT INTO memos (content) VALUES (?)", content);
+        this.db.run("INSERT INTO memos (content) VALUES (?)", content);
+        resolve();
+      });
     });
   }
 
@@ -22,6 +25,9 @@ export default class Sqlite {
   }
 
   deleteContent(memoId) {
-    this.db.run("DELETE FROM memos WHERE rowid = ?", memoId);
+    return new Promise((resolve) => {
+      this.db.run("DELETE FROM memos WHERE rowid = ?", memoId);
+      resolve();
+    });
   }
 }
