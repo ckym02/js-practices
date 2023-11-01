@@ -22,13 +22,13 @@ if (option === "-l") {
   const question = {
     message: "Choose a memo you want to see:",
     choices: choices,
-    result(names) {
-      return this.map(names);
+    result() {
+      return this.focused.value;
     },
   };
   const prompt = new Enquirer.Select(question);
   const answer = await prompt.run();
-  console.log(Object.values(answer)[0]);
+  console.log(answer);
 } else if (option === "-d") {
   const memo = new Memo();
   const memos = await memo.selectAll();
@@ -39,13 +39,13 @@ if (option === "-l") {
   const question = {
     message: "Choose a memo you want to delete:",
     choices: choices,
-    result(names) {
-      return this.map(names);
+    result() {
+      return this.focused.value;
     },
   };
   const prompt = new Enquirer.Select(question);
   const answer = await prompt.run();
-  memo.delete(Object.values(answer)[0]);
+  memo.delete(answer);
 } else if (option === undefined) {
   const reader = readline.createInterface({
     input: process.stdin,
