@@ -52,7 +52,7 @@ if (option === "-l") {
     output: process.stdout,
   });
 
-  let lines = [];
+  const lines = [];
   reader.on("line", (input) => {
     lines.push(input);
   });
