@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import readline from "readline";
-import Enquirer from "enquirer";
 import Memo from "./class/memo.js";
+import SelectPrompt from "./class/select_prompt.js";
 
 const [, , option] = process.argv;
 
@@ -19,15 +19,11 @@ if (option === "-l") {
     name: memo.content.split(/\n/)[0],
     value: memo.content,
   }));
-  const question = {
-    message: "Choose a memo you want to see:",
-    choices: choices,
-    result() {
-      return this.focused.value;
-    },
-  };
-  const prompt = new Enquirer.Select(question);
-  const answer = await prompt.run();
+  const selectPrompt = new SelectPrompt(
+    "Choose a memo you want to see:",
+    choices
+  );
+  const answer = await selectPrompt.run();
   console.log(answer);
 } else if (option === "-d") {
   const memo = await Memo.build();
@@ -36,15 +32,11 @@ if (option === "-l") {
     name: memo.content.split(/\n/)[0],
     value: memo.id,
   }));
-  const question = {
-    message: "Choose a memo you want to delete:",
-    choices: choices,
-    result() {
-      return this.focused.value;
-    },
-  };
-  const prompt = new Enquirer.Select(question);
-  const answer = await prompt.run();
+  const selectPrompt = new SelectPrompt(
+    "Choose a memo you want to delete:",
+    choices
+  );
+  const answer = await selectPrompt.run();
   memo.delete(answer);
 } else if (option === undefined) {
   const reader = readline.createInterface({
