@@ -2,6 +2,9 @@ import Enquirer from "enquirer";
 
 export default class SelectPrompt {
   constructor(message, choices) {
+    if (choices.length === 0) {
+      throw new Error("Please make a memo first");
+    }
     this.message = message;
     this.choices = choices;
   }
