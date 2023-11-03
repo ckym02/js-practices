@@ -7,13 +7,13 @@ import Memo from "./class/memo.js";
 const [, , option] = process.argv;
 
 if (option === "-l") {
-  const memo = new Memo();
+  const memo = await Memo.build();
   const memos = await memo.selectAll();
   memos.forEach((memo) => {
     console.log(memo.content.split(/\n/)[0]);
   });
 } else if (option === "-r") {
-  const memo = new Memo();
+  const memo = await Memo.build();
   const memos = await memo.selectAll();
   const choices = memos.map((memo) => ({
     name: memo.content.split(/\n/)[0],
@@ -30,7 +30,7 @@ if (option === "-l") {
   const answer = await prompt.run();
   console.log(answer);
 } else if (option === "-d") {
-  const memo = new Memo();
+  const memo = await Memo.build();
   const memos = await memo.selectAll();
   const choices = memos.map((memo) => ({
     name: memo.content.split(/\n/)[0],
@@ -56,9 +56,12 @@ if (option === "-l") {
   reader.on("line", (input) => {
     lines.push(input);
   });
+
   reader.on("close", () => {
-    const memo = new Memo(lines.join("\n"));
-    memo.create();
+    (async () => {
+      const memo = await Memo.build(lines.join("\n"));
+      memo.create();
+    })();
   });
 } else {
   console.log("Empty action received.");
