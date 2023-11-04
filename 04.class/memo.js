@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
 import readline from "readline";
-import MemoTableHandler from "./class/memo_table_handler.js";
-import SelectPrompt from "./class/select_prompt.js";
+import MemoTableHandler from "./lib/memo_table_handler.js";
+import SelectPrompt from "./lib/select_prompt.js";
 
 const [, , option] = process.argv;
 
