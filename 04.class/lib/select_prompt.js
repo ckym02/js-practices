@@ -10,11 +10,11 @@ export default class SelectPrompt {
   }
 
   run() {
-    const prompt = new Enquirer.Select(this.generateQuestion());
+    const prompt = new Enquirer.Select(this.#generateQuestion());
     return prompt.run();
   }
 
-  generateQuestion() {
+  #generateQuestion() {
     return {
       message: this.message,
       choices: this.choices,
