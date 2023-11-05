@@ -7,84 +7,52 @@ import SelectPrompt from "./lib/select_prompt.js";
 const [, , option] = process.argv;
 
 if (option === "-l") {
-  try {
-    const memoTableHandler = await MemoTableHandler.build();
-    const memos = await memoTableHandler.selectAll();
-    memos.forEach((memo) => {
-      console.log(memo.content.split(/\n/)[0]);
-    });
-  } catch (err) {
-    if (err instanceof Error) {
-      console.error(err.message);
-    } else {
-      throw err;
-    }
-  }
+  const memoTableHandler = await MemoTableHandler.build();
+  const memos = await memoTableHandler.selectAll();
+  memos.forEach((memo) => {
+    console.log(memo.content.split(/\n/)[0]);
+  });
 } else if (option === "-r") {
-  try {
-    const memoTableHandler = await MemoTableHandler.build();
-    const memos = await memoTableHandler.selectAll();
-    const choices = memos.map((memo) => ({
-      name: memo.content.split(/\n/)[0],
-      value: memo.content,
-    }));
-    const selectPrompt = new SelectPrompt(
-      "Choose a memo you want to see:",
-      choices
-    );
-    const memoContent = await selectPrompt.run();
-    console.log(memoContent);
-  } catch (err) {
-    if (err instanceof Error) {
-      console.error(err.message);
-    } else {
-      throw err;
-    }
-  }
+  const memoTableHandler = await MemoTableHandler.build();
+  const memos = await memoTableHandler.selectAll();
+  const choices = memos.map((memo) => ({
+    name: memo.content.split(/\n/)[0],
+    value: memo.content,
+  }));
+  const selectPrompt = new SelectPrompt(
+    "Choose a memo you want to see:",
+    choices
+  );
+  const memoContent = await selectPrompt.run();
+  console.log(memoContent);
 } else if (option === "-d") {
-  try {
-    const memoTableHandler = await MemoTableHandler.build();
-    const memos = await memoTableHandler.selectAll();
-    const choices = memos.map((memo) => ({
-      name: memo.content.split(/\n/)[0],
-      value: memo.id,
-    }));
-    const selectPrompt = new SelectPrompt(
-      "Choose a memo you want to delete:",
-      choices
-    );
-    const memoId = await selectPrompt.run();
-    memoTableHandler.delete(memoId);
-  } catch (err) {
-    if (err instanceof Error) {
-      console.error(err.message);
-    } else {
-      throw err;
-    }
-  }
+  const memoTableHandler = await MemoTableHandler.build();
+  const memos = await memoTableHandler.selectAll();
+  const choices = memos.map((memo) => ({
+    name: memo.content.split(/\n/)[0],
+    value: memo.id,
+  }));
+  const selectPrompt = new SelectPrompt(
+    "Choose a memo you want to delete:",
+    choices
+  );
+  const memoId = await selectPrompt.run();
+  memoTableHandler.delete(memoId);
 } else if (option === undefined) {
-  try {
-    const reader = readline.createInterface({
-      input: process.stdin,
-      output: process.stdout,
-    });
+  const reader = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
 
-    const lines = [];
-    reader.on("line", (input) => {
-      lines.push(input);
-    });
+  const lines = [];
+  reader.on("line", (input) => {
+    lines.push(input);
+  });
 
-    reader.on("close", () => {
-      (async () => {
-        const memoTableHandler = await MemoTableHandler.build();
-        memoTableHandler.create(lines.join("\n"));
-      })();
-    });
-  } catch (err) {
-    if (err instanceof Error) {
-      console.error(err.message);
-    } else {
-      throw err;
-    }
-  }
+  reader.on("close", () => {
+    (async () => {
+      const memoTableHandler = await MemoTableHandler.build();
+      memoTableHandler.create(lines.join("\n"));
+    })();
+  });
 }
