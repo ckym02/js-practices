@@ -7,23 +7,32 @@ export default class MemoTableHandler {
 
   static async build() {
     const memoTableHandler = new MemoTableHandler();
-    await memoTableHandler.sqlite.run(
-      "CREATE TABLE IF NOT EXISTS memos (content TEXT NOT NULL)"
-    );
+    await memoTableHandler.#createTable();
     return memoTableHandler;
   }
 
-  create(content) {
-    this.sqlite.run(`INSERT INTO memos (content) VALUES ('${content}')`);
+  async #createTable() {
+    await this.sqlite.run(
+      "CREATE TABLE IF NOT EXISTS memos (content TEXT NOT NULL)"
+    );
   }
 
-  selectAll() {
-    return this.sqlite.all(
+  static async create(content) {
+    const memoTableHandler = await this.build();
+    memoTableHandler.sqlite.run(
+      `INSERT INTO memos (content) VALUES ('${content}')`
+    );
+  }
+
+  static async selectAll() {
+    const memoTableHandler = await this.build();
+    return memoTableHandler.sqlite.all(
       "SELECT rowid AS id, content FROM memos ORDER BY rowid"
     );
   }
 
-  delete(id) {
-    this.sqlite.run(`DELETE FROM memos WHERE rowid = ${id}`);
+  static async delete(id) {
+    const memoTableHandler = await this.build();
+    memoTableHandler.sqlite.run(`DELETE FROM memos WHERE rowid = ${id}`);
   }
 }

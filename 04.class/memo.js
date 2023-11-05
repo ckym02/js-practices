@@ -7,14 +7,12 @@ import SelectPrompt from "./lib/select_prompt.js";
 const [, , option] = process.argv;
 
 if (option === "-l") {
-  const memoTableHandler = await MemoTableHandler.build();
-  const memos = await memoTableHandler.selectAll();
+  const memos = await MemoTableHandler.selectAll();
   memos.forEach((memo) => {
     console.log(memo.content.split(/\n/)[0]);
   });
 } else if (option === "-r") {
-  const memoTableHandler = await MemoTableHandler.build();
-  const memos = await memoTableHandler.selectAll();
+  const memos = await MemoTableHandler.selectAll();
   const choices = memos.map((memo) => ({
     name: memo.content.split(/\n/)[0],
     value: memo.content,
@@ -26,8 +24,7 @@ if (option === "-l") {
   const memoContent = await selectPrompt.run();
   console.log(memoContent);
 } else if (option === "-d") {
-  const memoTableHandler = await MemoTableHandler.build();
-  const memos = await memoTableHandler.selectAll();
+  const memos = await MemoTableHandler.selectAll();
   const choices = memos.map((memo) => ({
     name: memo.content.split(/\n/)[0],
     value: memo.id,
@@ -37,7 +34,7 @@ if (option === "-l") {
     choices
   );
   const memoId = await selectPrompt.run();
-  memoTableHandler.delete(memoId);
+  MemoTableHandler.delete(memoId);
 } else if (option === undefined) {
   const reader = readline.createInterface({
     input: process.stdin,
@@ -51,8 +48,7 @@ if (option === "-l") {
 
   reader.on("close", () => {
     (async () => {
-      const memoTableHandler = await MemoTableHandler.build();
-      memoTableHandler.create(lines.join("\n"));
+      MemoTableHandler.create(lines.join("\n"));
     })();
   });
 }
