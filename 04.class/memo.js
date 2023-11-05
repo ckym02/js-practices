@@ -32,8 +32,8 @@ if (option === "-l") {
       "Choose a memo you want to see:",
       choices
     );
-    const answer = await selectPrompt.run();
-    console.log(answer);
+    const memoContent = await selectPrompt.run();
+    console.log(memoContent);
   } catch (err) {
     if (err instanceof Error) {
       console.error(err.message);
@@ -53,8 +53,8 @@ if (option === "-l") {
       "Choose a memo you want to delete:",
       choices
     );
-    const answer = await selectPrompt.run();
-    memoTableHandler.delete(answer);
+    const memoId = await selectPrompt.run();
+    memoTableHandler.delete(memoId);
   } catch (err) {
     if (err instanceof Error) {
       console.error(err.message);
