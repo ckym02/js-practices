@@ -20,7 +20,8 @@ export default class MemoTableHandler {
   static async create(content) {
     const memoTableHandler = await this.#build();
     memoTableHandler.sqlite.run(
-      `INSERT INTO memos (content) VALUES ('${content}')`
+      "INSERT INTO memos (content) VALUES (?)",
+      content
     );
   }
 
@@ -33,6 +34,6 @@ export default class MemoTableHandler {
 
   static async delete(id) {
     const memoTableHandler = await this.#build();
-    memoTableHandler.sqlite.run(`DELETE FROM memos WHERE rowid = ${id}`);
+    memoTableHandler.sqlite.run("DELETE FROM memos WHERE rowid = ?", id);
   }
 }

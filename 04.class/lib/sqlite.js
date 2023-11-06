@@ -5,9 +5,9 @@ export default class Sqlite {
     this.db = new sqlite3.Database(dbFileName);
   }
 
-  run(sql) {
+  run(sql, params) {
     return new Promise((resolve, reject) => {
-      this.db.run(sql, function (err) {
+      this.db.run(sql, params, function (err) {
         if (!err) {
           resolve();
         } else {
