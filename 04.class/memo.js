@@ -47,8 +47,6 @@ if (option === "-l") {
   });
 
   reader.on("close", () => {
-    (async () => {
-      MemoTableHandler.create(lines.join("\n"));
-    })();
+    MemoTableHandler.create(lines.join("\n"));
   });
 }
