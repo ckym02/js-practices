@@ -6,6 +6,13 @@ import SelectPrompt from "./lib/select_prompt.js";
 
 const [, , option] = process.argv;
 
+const generateChoices = (memos) => {
+  return memos.map((memo) => ({
+    name: memo.content.split(/\n/)[0],
+    value: memo,
+  }));
+};
+
 if (option === "-l") {
   const memos = await MemoTableHandler.selectAll();
   memos.forEach((memo) => {
@@ -13,28 +20,20 @@ if (option === "-l") {
   });
 } else if (option === "-r") {
   const memos = await MemoTableHandler.selectAll();
-  const choices = memos.map((memo) => ({
-    name: memo.content.split(/\n/)[0],
-    value: memo.content,
-  }));
   const selectPrompt = new SelectPrompt(
     "Choose a memo you want to see:",
-    choices
+    generateChoices(memos)
   );
-  const memoContent = await selectPrompt.run();
-  console.log(memoContent);
+  const memo = await selectPrompt.run();
+  console.log(memo.content);
 } else if (option === "-d") {
   const memos = await MemoTableHandler.selectAll();
-  const choices = memos.map((memo) => ({
-    name: memo.content.split(/\n/)[0],
-    value: memo.id,
-  }));
   const selectPrompt = new SelectPrompt(
     "Choose a memo you want to delete:",
-    choices
+    generateChoices(memos)
   );
-  const memoId = await selectPrompt.run();
-  MemoTableHandler.delete(memoId);
+  const memo = await selectPrompt.run();
+  MemoTableHandler.delete(memo.id);
 } else if (option === undefined) {
   const reader = readline.createInterface({
     input: process.stdin,
