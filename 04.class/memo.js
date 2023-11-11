@@ -66,18 +66,5 @@ if (option === "-l") {
 } else if (option === "-d") {
   deleteMemo();
 } else if (option === undefined) {
-  // const reader = readline.createInterface({
-  //   input: process.stdin,
-  //   output: process.stdout,
-  // });
-
-  // const lines = [];
-  // reader.on("line", (input) => {
-  //   lines.push(input);
-  // });
-
-  // reader.on("close", () => {
-  //   MemoTableHandler.create(lines.join("\n"));
-  // });
   createMemo();
 }
