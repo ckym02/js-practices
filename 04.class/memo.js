@@ -13,28 +13,33 @@ const generateChoices = (memos) => {
   }));
 };
 
-if (option === "-l") {
+const showMemoContent = async () => {
   const memos = await MemoTableHandler.selectAll();
-  memos.forEach((memo) => {
-    console.log(memo.content.split(/\n/)[0]);
-  });
-} else if (option === "-r") {
-  const memos = await MemoTableHandler.selectAll();
+
+  if (!memos.length) return "";
+
   const selectPrompt = new SelectPrompt(
     "Choose a memo you want to see:",
     generateChoices(memos)
   );
   const memo = await selectPrompt.run();
-  console.log(memo.content);
-} else if (option === "-d") {
+  return memo.content;
+};
+
+const deleteMemo = async () => {
   const memos = await MemoTableHandler.selectAll();
+
+  if (!memos.length) return;
+
   const selectPrompt = new SelectPrompt(
     "Choose a memo you want to delete:",
     generateChoices(memos)
   );
   const memo = await selectPrompt.run();
   MemoTableHandler.delete(memo.id);
-} else if (option === undefined) {
+};
+
+const createMemo = async () => {
   const reader = readline.createInterface({
     input: process.stdin,
     output: process.stdout,
@@ -48,4 +53,31 @@ if (option === "-l") {
   reader.on("close", () => {
     MemoTableHandler.create(lines.join("\n"));
   });
+};
+
+if (option === "-l") {
+  const memos = await MemoTableHandler.selectAll();
+  memos.forEach((memo) => {
+    console.log(memo.content.split(/\n/)[0]);
+  });
+} else if (option === "-r") {
+  const memoContent = await showMemoContent();
+  console.log(memoContent);
+} else if (option === "-d") {
+  deleteMemo();
+} else if (option === undefined) {
+  // const reader = readline.createInterface({
+  //   input: process.stdin,
+  //   output: process.stdout,
+  // });
+
+  // const lines = [];
+  // reader.on("line", (input) => {
+  //   lines.push(input);
+  // });
+
+  // reader.on("close", () => {
+  //   MemoTableHandler.create(lines.join("\n"));
+  // });
+  createMemo();
 }
