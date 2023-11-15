@@ -13,7 +13,14 @@ const generateChoices = (memos) => {
   }));
 };
 
-const showMemoContent = async () => {
+const showAllMemos = async () => {
+  const memos = await MemoTableHandler.selectAll();
+  memos.forEach((memo) => {
+    console.log(memo.content.split(/\n/)[0]);
+  });
+};
+
+const showMemo = async () => {
   const memos = await MemoTableHandler.selectAll();
 
   if (!memos.length) return "";
@@ -23,7 +30,7 @@ const showMemoContent = async () => {
     generateChoices(memos)
   );
   const memo = await selectPrompt.run();
-  return memo.content;
+  console.log(memo.content);
 };
 
 const deleteMemo = async () => {
@@ -56,13 +63,9 @@ const createMemo = async () => {
 };
 
 if (option === "-l") {
-  const memos = await MemoTableHandler.selectAll();
-  memos.forEach((memo) => {
-    console.log(memo.content.split(/\n/)[0]);
-  });
+  showAllMemos();
 } else if (option === "-r") {
-  const memoContent = await showMemoContent();
-  console.log(memoContent);
+  showMemo();
 } else if (option === "-d") {
   deleteMemo();
 } else if (option === undefined) {
