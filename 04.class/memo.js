@@ -6,12 +6,11 @@ import SelectPrompt from "./lib/select_prompt.js";
 
 const [, , option] = process.argv;
 
-const generateChoices = (memos) => {
-  return memos.map((memo) => ({
+const generateChoices = (memos) =>
+  memos.map((memo) => ({
     name: memo.content.split(/\n/)[0],
     value: memo,
   }));
-};
 
 const showAllMemos = async () => {
   const memos = await MemoTableHandler.selectAll();
