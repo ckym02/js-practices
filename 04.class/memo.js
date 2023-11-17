@@ -22,7 +22,7 @@ const showAllMemos = async () => {
 const showMemo = async () => {
   const memos = await MemoTableHandler.selectAll();
 
-  if (memos.length === 0) return null;
+  if (memos.length === 0) return;
 
   const selectPrompt = new SelectPrompt(
     "Choose a memo you want to see:",
@@ -35,7 +35,7 @@ const showMemo = async () => {
 const deleteMemo = async () => {
   const memos = await MemoTableHandler.selectAll();
 
-  if (memos.length === 0) return null;
+  if (memos.length === 0) return;
 
   const selectPrompt = new SelectPrompt(
     "Choose a memo you want to delete:",
